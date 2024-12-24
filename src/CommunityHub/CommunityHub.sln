@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityHub.Domain", "Comm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityHub.Application", "CommunityHub.Application\CommunityHub.Application.csproj", "{639424E7-EC8F-4433-A7D0-95D95814EA73}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityHub.Infrastructure", "CommunityHub.Infrastructure\CommunityHub.Infrastructure.csproj", "{A2AE8C7B-DA3C-4AE8-8427-A2FE488A2B52}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{639424E7-EC8F-4433-A7D0-95D95814EA73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{639424E7-EC8F-4433-A7D0-95D95814EA73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{639424E7-EC8F-4433-A7D0-95D95814EA73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2AE8C7B-DA3C-4AE8-8427-A2FE488A2B52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2AE8C7B-DA3C-4AE8-8427-A2FE488A2B52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2AE8C7B-DA3C-4AE8-8427-A2FE488A2B52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2AE8C7B-DA3C-4AE8-8427-A2FE488A2B52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,5 +65,6 @@ Global
 		{BFDD83D2-28E6-4BD2-A426-058DD1DE2F82} = {59C44C48-AFF1-4E38-B793-8FEA3D57A283}
 		{195E06D7-5B41-433A-8E3C-4B72C75595B3} = {F4BEE58C-EC97-4C0B-8A7F-C5BDE235D2C6}
 		{639424E7-EC8F-4433-A7D0-95D95814EA73} = {8A3AA846-3B70-4B9B-8988-245E77F083CC}
+		{A2AE8C7B-DA3C-4AE8-8427-A2FE488A2B52} = {BA650A16-2B03-4C88-A0C7-05A9A7089588}
 	EndGlobalSection
 EndGlobal
