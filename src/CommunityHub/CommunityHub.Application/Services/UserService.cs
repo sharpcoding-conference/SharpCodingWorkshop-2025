@@ -4,11 +4,6 @@ using CommunityHub.Application.Interfaces;
 using CommunityHub.Domain.Entities;
 using CommunityHub.Domain.Interfaces;
 using CommunityHub.Domain.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CommunityHub.Application.Services
 {

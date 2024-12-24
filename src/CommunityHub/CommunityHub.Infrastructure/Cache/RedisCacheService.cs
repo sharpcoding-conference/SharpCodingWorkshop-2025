@@ -33,6 +33,7 @@ namespace CommunityHub.Infrastructure.Cache
             var serializedValue = System.Text.Encoding.UTF8.GetString(cachedData);
             return JsonSerializer.Deserialize<T>(serializedValue);
         }
+
         public async Task RemoveCacheAsync(string key)
         {
             await GetDatabase().KeyDeleteAsync(key);
