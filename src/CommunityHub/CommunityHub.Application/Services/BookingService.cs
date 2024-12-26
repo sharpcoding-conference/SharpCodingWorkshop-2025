@@ -34,6 +34,32 @@ namespace CommunityHub.Application.Services
             return newBooking.Id;
         }
 
+        public async Task<IEnumerable<BookingDto>> GetAllBookingsAsync()
+        {
+            var bookings = await _bookingRepository.GetAllAsync();
+            return bookings.Select(b => new BookingDto
+            {
+                Id = b.Id,
+                WebinarId = b.WebinarId,
+                UserId = b.UserId,
+                BookingDate = b.BookingDate
+            });
+        }
+
+        public async Task<BookingDto> GetBookingByIdAsync(Guid bookingId)
+        {
+            var booking = await _bookingRepository.GetByIdAsync(bookingId)
+                ?? throw new BookingNotFoundException($"Booking with ID {bookingId} not found.");
+
+            return new BookingDto
+            {
+                Id = booking.Id,
+                WebinarId = booking.WebinarId,
+                UserId = booking.UserId,
+                BookingDate = booking.BookingDate
+            };
+        }
+
         public async Task<IEnumerable<BookingDto>> GetBookingsByUserIdAsync(Guid userId)
         {
             var bookings = await _bookingRepository.GetAllAsync();
@@ -45,6 +71,31 @@ namespace CommunityHub.Application.Services
                                UserId = b.UserId,
                                BookingDate = b.BookingDate
                            });
+        }
+
+        public async Task<bool> UpdateBookingAsync(Guid bookingId, BookingDto bookingDto)
+        {
+            var booking = await _bookingRepository.GetByIdAsync(bookingId);
+            if (booking == null)
+            {
+                return false;
+            }
+
+            booking.UpdateDetails(bookingDto.WebinarId, bookingDto.UserId, bookingDto.BookingDate);
+            await _bookingRepository.UpdateAsync(booking);
+            return true;
+        }
+
+        public async Task<bool> DeleteBookingAsync(Guid bookingId)
+        {
+            var booking = await _bookingRepository.GetByIdAsync(bookingId);
+            if (booking == null)
+            {
+                return false;
+            }
+
+            await _bookingRepository.DeleteAsync(bookingId);
+            return true;
         }
 
         public async Task CancelBookingAsync(Guid bookingId)
