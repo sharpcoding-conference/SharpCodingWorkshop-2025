@@ -2,6 +2,7 @@
 {
     public class WebinarDateRange
     {
+        public Guid Id { get; set; }
         public DateTime StartDate { get; private set; }
         public DateTime EndDate { get; private set; }
 

@@ -1,4 +1,5 @@
 ﻿using CommunityHub.Domain.Entities;
+using CommunityHub.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommunityHub.Infrastructure
@@ -15,9 +16,15 @@ namespace CommunityHub.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<User>().HasKey(u => u.Id);
+            modelBuilder.Entity<User>()
+                .Property(u => u.Email)
+                .HasConversion(
+                    v => v.ToString(),   // Convert to string for storage
+                    v => new Email(v)    // Convert back to Email type
+                );
             modelBuilder.Entity<Webinar>().HasKey(e => e.Id);
             modelBuilder.Entity<Booking>().HasKey(b => b.Id);
+            modelBuilder.Entity<WebinarDateRange>().HasKey(w => w.Id);
         }
     }
 }

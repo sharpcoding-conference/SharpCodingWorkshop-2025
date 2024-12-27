@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>fca80086-eba7-435f-99e9-51f93e51afa0</UserSecretsId>
@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CommunityHub.Application\CommunityHub.Application.csproj" />
+    <ProjectReference Include="..\CommunityHub.Infrastructure\CommunityHub.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,6 +7,9 @@
         public Guid UserId { get; private set; }
         public DateTime BookingDate { get; private set; }
 
+        // EF Core requires a parameterless constructor for entities
+        private Booking() { }
+
         public Booking(Guid id, Guid webinarId, Guid userId)
         {
             if (id == Guid.Empty) throw new ArgumentException("Id cannot be empty", nameof(id));

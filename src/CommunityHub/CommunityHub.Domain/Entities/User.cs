@@ -8,6 +8,9 @@ namespace CommunityHub.Domain.Entities
         public string Name { get; private set; }
         public Email Email { get; private set; }
 
+        // EF Core requires a parameterless constructor for entities
+        private User() { }
+
         public User(Guid id, string name, Email email)
         {
             Id = id;
