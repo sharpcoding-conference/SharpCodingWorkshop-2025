@@ -26,5 +26,10 @@ namespace CommunityHub.Infrastructure
             modelBuilder.Entity<Booking>().HasKey(b => b.Id);
             modelBuilder.Entity<WebinarDateRange>().HasKey(w => w.Id);
         }
+
+        public void EnsureDatabaseCreated()
+        {
+            Database.EnsureCreated();
+        }
     }
 }

@@ -2,6 +2,79 @@
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<style>
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
 
-Welcome to your new app.
+    header {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .timeline {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .timeline li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+            .timeline li:last-child {
+                border-bottom: none;
+            }
+
+    .list-group-item {
+        border: none;
+        padding: 10px 15px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        margin-bottom: 8px;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+    }
+</style>
+
+<div class="container">
+    <header class="text-center mb-4">
+        <h1 class="display-4">SharpCoding Workshop 2025</h1>
+        <p class="lead">
+            Un'esperienza pratica per creare applicazioni Cloud-Native moderne con <strong>Microsoft .NET Aspire</strong>.
+        </p>
+        <hr class="my-4">
+    </header>
+
+    <section class="mb-5">
+        <h2>Dettagli del Workshop</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <p><strong>Durata:</strong> 3 ore</p>
+            </div>
+            <div class="col-md-4">
+                <p><strong>Modalità:</strong> In presenza</p>
+            </div>
+            <div class="col-md-4">
+                <p><strong>Partecipanti:</strong> Sviluppatori con esperienza base/intermedia in .NET</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-5">
+        <h2>Obiettivi</h2>
+        <ul class="list-group">
+            <li class="list-group-item">Introdurre i principi di sviluppo di applicazioni cloud-native.</li>
+            <li class="list-group-item">Applicare le best practice per la progettazione e l'implementazione su Microsoft .NET Aspire.</li>
+            <li class="list-group-item">Realizzare un'applicazione funzionante durante il workshop.</li>
+        </ul>
+    </section>
+</div>
