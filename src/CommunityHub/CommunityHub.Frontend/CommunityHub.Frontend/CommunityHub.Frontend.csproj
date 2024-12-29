@@ -8,13 +8,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\CommunityHub.Application\CommunityHub.Application.csproj" />
+    <ProjectReference Include="..\..\CommunityHub.ServiceDefaults\CommunityHub.ServiceDefaults.csproj" />
     <ProjectReference Include="..\CommunityHub.Frontend.Client\CommunityHub.Frontend.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Components\Pages\booking\" />
-    <Folder Include="Components\Pages\users\" />
   </ItemGroup>
 
 </Project>

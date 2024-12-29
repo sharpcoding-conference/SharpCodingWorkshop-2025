@@ -1,5 +1,6 @@
 ﻿using CommunityHub.Application.DTOs;
 using CommunityHub.Application.Interfaces;
+using CommunityHub.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CommunityHub.Api.Controllers
@@ -13,6 +14,14 @@ namespace CommunityHub.Api.Controllers
         public UserController(IUserService userService)
         {
             _userService = userService;
+        }
+
+        // GET: api/Users
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsersAsync()
+        {
+            var webinars = await _userService.GetAllUsersAsync();
+            return Ok(webinars);
         }
 
         // GET: api/User/{id}

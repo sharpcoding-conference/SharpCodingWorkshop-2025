@@ -10,12 +10,15 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="OpenTelemetry" Version="1.10.0" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.10.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CommunityHub.Application\CommunityHub.Application.csproj" />
     <ProjectReference Include="..\CommunityHub.Infrastructure\CommunityHub.Infrastructure.csproj" />
+    <ProjectReference Include="..\CommunityHub.ServiceDefaults\CommunityHub.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>

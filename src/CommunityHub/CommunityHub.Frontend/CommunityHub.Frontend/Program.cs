@@ -1,9 +1,12 @@
 using CommunityHub.Frontend.Client.Pages;
 using CommunityHub.Frontend.Components;
+using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.AddServiceDefaults();
+
 builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 

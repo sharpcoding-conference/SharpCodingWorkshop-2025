@@ -3,7 +3,11 @@ using CommunityHub.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add service defaults & Aspire components.
+builder.AddServiceDefaults();
+
 // Add services to the container.
+builder.Services.AddProblemDetails();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -17,6 +21,9 @@ builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+app.UseExceptionHandler();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
