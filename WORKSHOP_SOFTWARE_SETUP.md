@@ -70,3 +70,10 @@ Per interagire con PostgreSQL da una applicazione .NET, è necessario installare
     Apri NuGet Package Manager.
     Cerca Npgsql.
     Clicca su "Install" per aggiungere il pacchetto al tuo progetto.
+
+### 6. Clonare il repository
+Clona il repository del workshop sul tuo computer utilizzando il seguente comando:
+
+```bash
+    git clone https://github.com/sharpcoding-conference/SharpCodingWorkshop-2025.git
+```
