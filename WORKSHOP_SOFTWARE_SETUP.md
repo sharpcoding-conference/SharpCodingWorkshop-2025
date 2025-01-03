@@ -54,7 +54,10 @@ Se preferisci non installare PostgreSQL direttamente sul tuo sistema, puoi usare
   ```bash
   docker run --name postgres-local -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword -e POSTGRES_DB=mydb -p 5432:5432 -d postgres
 
-### 5. **Driver .NET per PostgreSQL (Npgsql)**
+### 5.Podman (Alternativa a Docker)
+Se preferisci utilizzare un'alternativa open-source e gratuita a Docker Desktop, puoi configurare Podman, un motore container compatibile con Docker.
+
+### 6. **Driver .NET per PostgreSQL (Npgsql)**
 Per interagire con PostgreSQL da una applicazione .NET, è necessario installare il driver Npgsql, che è una libreria ADO.NET per PostgreSQL.
 
 - Istruzioni di Installazione:
@@ -71,7 +74,7 @@ Per interagire con PostgreSQL da una applicazione .NET, è necessario installare
     Cerca Npgsql.
     Clicca su "Install" per aggiungere il pacchetto al tuo progetto.
 
-### 6. Clonare il repository
+### 7. Clonare il repository
 Clona il repository del workshop sul tuo computer utilizzando il seguente comando:
 
 ```bash
