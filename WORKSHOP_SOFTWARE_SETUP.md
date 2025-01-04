@@ -57,6 +57,8 @@ Se preferisci non installare PostgreSQL direttamente sul tuo sistema, puoi usare
 ### 5.Podman (Alternativa a Docker)
 Se preferisci utilizzare un'alternativa open-source e gratuita a Docker Desktop, puoi configurare Podman, un motore container compatibile con Docker.
 
+- Vai su [Podman Official Website](https://podman.io/docs/installation).
+
 ### 6. **Driver .NET per PostgreSQL (Npgsql)**
 Per interagire con PostgreSQL da una applicazione .NET, è necessario installare il driver Npgsql, che è una libreria ADO.NET per PostgreSQL.
 
