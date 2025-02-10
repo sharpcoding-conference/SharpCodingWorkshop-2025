@@ -12,6 +12,8 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddHttpClient();
 
+builder.AddRedisOutputCache("cache");
+
 // Carica configurazione
 var configuration = builder.Configuration;
 
