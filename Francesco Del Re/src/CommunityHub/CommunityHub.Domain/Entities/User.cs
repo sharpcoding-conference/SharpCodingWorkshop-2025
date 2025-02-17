@@ -7,6 +7,7 @@ namespace CommunityHub.Domain.Entities
         public Guid Id { get; private set; }
         public string Name { get; private set; }
         public Email Email { get; private set; }
+        public ICollection<Booking> Bookings { get; private set; } = [];
 
         // EF Core requires a parameterless constructor for entities
         private User() { }

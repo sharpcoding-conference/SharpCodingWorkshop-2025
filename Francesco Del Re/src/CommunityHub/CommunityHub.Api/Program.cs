@@ -1,5 +1,8 @@
 using CommunityHub.Application.Extensions;
+using CommunityHub.Application.Middlewares;
+using CommunityHub.Infrastructure;
 using CommunityHub.Infrastructure.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,9 +21,19 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationServices();
 
 // Add services from the Infrastructure project
-builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddInfrastructureServices();
+builder.AddNpgsqlDbContext();
+
+// Add mapping services
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    context.Database.EnsureCreated();
+}
 
 // Configure the HTTP request pipeline.
 app.UseExceptionHandler();
@@ -31,6 +44,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 

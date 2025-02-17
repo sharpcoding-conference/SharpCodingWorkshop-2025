@@ -13,14 +13,23 @@ namespace CommunityHub.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Webinar> GetByIdAsync(Guid id)
+        public async Task<Webinar?> GetByIdAsync(Guid id)
         {
-            return await _context.Webinars.FirstOrDefaultAsync(e => e.Id == id);
+            return await _context
+                .Webinars
+                .AsNoTracking()
+                .Include(x => x.DateRange)
+                .Include(b => b.Bookings).ThenInclude(u => u.User)
+                .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task<IEnumerable<Webinar>> GetAllAsync()
         {
-            return await _context.Webinars.ToListAsync();
+            return await _context
+                .Webinars
+                .AsNoTracking()
+                .Include(x => x.DateRange)
+                .ToListAsync();
         }
 
         public async Task AddAsync(Webinar entity)

@@ -1,4 +1,5 @@
-﻿using CommunityHub.Application.DTOs;
+﻿using AutoMapper;
+using CommunityHub.Application.DTOs;
 using CommunityHub.Application.Exceptions;
 using CommunityHub.Application.Interfaces;
 using CommunityHub.Domain.Entities;
@@ -10,11 +11,13 @@ namespace CommunityHub.Application.Services
     {
         private readonly IRepository<Booking> _bookingRepository;
         private readonly IRepository<Webinar> _webinarRepository;
+        private readonly IMapper _mapper;
 
-        public BookingService(IRepository<Booking> bookingRepository, IRepository<Webinar> webinarRepository)
+        public BookingService(IRepository<Booking> bookingRepository, IRepository<Webinar> webinarRepository, IMapper mapper)
         {
             _bookingRepository = bookingRepository;
             _webinarRepository = webinarRepository;
+            _mapper = mapper;
         }
 
         public async Task<Guid> CreateBookingAsync(BookingDto bookingDto)
@@ -37,13 +40,7 @@ namespace CommunityHub.Application.Services
         public async Task<IEnumerable<BookingDto>> GetAllBookingsAsync()
         {
             var bookings = await _bookingRepository.GetAllAsync();
-            return bookings.Select(b => new BookingDto
-            {
-                Id = b.Id,
-                WebinarId = b.WebinarId,
-                UserId = b.UserId,
-                BookingDate = b.BookingDate
-            });
+            return _mapper.Map<IEnumerable<BookingDto>>(bookings);
         }
 
         public async Task<BookingDto> GetBookingByIdAsync(Guid bookingId)
@@ -51,26 +48,7 @@ namespace CommunityHub.Application.Services
             var booking = await _bookingRepository.GetByIdAsync(bookingId)
                 ?? throw new BookingNotFoundException($"Booking with ID {bookingId} not found.");
 
-            return new BookingDto
-            {
-                Id = booking.Id,
-                WebinarId = booking.WebinarId,
-                UserId = booking.UserId,
-                BookingDate = booking.BookingDate
-            };
-        }
-
-        public async Task<IEnumerable<BookingDto>> GetBookingsByUserIdAsync(Guid userId)
-        {
-            var bookings = await _bookingRepository.GetAllAsync();
-            return bookings.Where(b => b.UserId == userId)
-                           .Select(b => new BookingDto
-                           {
-                               Id = b.Id,
-                               WebinarId = b.WebinarId,
-                               UserId = b.UserId,
-                               BookingDate = b.BookingDate
-                           });
+            return _mapper.Map<BookingDto>(booking);
         }
 
         public async Task<bool> UpdateBookingAsync(Guid bookingId, BookingDto bookingDto)

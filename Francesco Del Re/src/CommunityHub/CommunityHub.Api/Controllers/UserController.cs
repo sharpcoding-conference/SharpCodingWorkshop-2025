@@ -1,6 +1,6 @@
-﻿using CommunityHub.Application.DTOs;
+﻿using AutoMapper;
+using CommunityHub.Application.DTOs;
 using CommunityHub.Application.Interfaces;
-using CommunityHub.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CommunityHub.Api.Controllers
@@ -10,23 +10,30 @@ namespace CommunityHub.Api.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
         // GET: api/Users
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsersAsync()
         {
-            var webinars = await _userService.GetAllUsersAsync();
-            return Ok(webinars);
+            var users = await _userService.GetAllUsersAsync();
+            return Ok(users);
         }
 
         // GET: api/User/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserDto>> GetUserByIdAsync(Guid id)
+        [ActionName("GetUserByIdAsync")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<UserDetailDto>> GetUserByIdAsync(Guid id)
         {
             var user = await _userService.GetUserByIdAsync(id);
             if (user == null)
@@ -38,18 +45,24 @@ namespace CommunityHub.Api.Controllers
 
         // POST: api/User
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<UserDto>> CreateUserAsync([FromBody] UserDto userDto)
         {
             var userId = await _userService.CreateUserAsync(userDto);
-            return CreatedAtAction(nameof(GetUserByIdAsync), new { id = userId });
+
+            return CreatedAtAction(nameof(GetUserByIdAsync), new { id = userId }, userId);
         }
 
         // PUT: api/User
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> UpdateUserAsync([FromBody] UserDto userDto)
         {
             await _userService.UpdateUserAsync(userDto);
-            return CreatedAtAction(nameof(UpdateUserAsync), new { userDto.Id });
+
+            return NoContent();
         }
     }
 }

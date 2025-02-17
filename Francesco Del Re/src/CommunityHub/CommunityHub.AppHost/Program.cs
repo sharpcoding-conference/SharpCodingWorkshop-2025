@@ -1,18 +1,17 @@
 using Aspire.Hosting;
+using Npgsql;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-var postgres = builder.AddPostgres("postgres")
-                      //.WithEnvironment("POSTGRES_USER", "postgres")
-                      //.WithEnvironment("POSTGRES_PASSWORD", "password")
-                      .WithPgWeb();
+var postgres = builder.AddPostgres("postgres").WithPgWeb();
 var postgresdb = postgres.AddDatabase("postgresdb");
 
 var cache = builder.AddRedis("cache")
     .WithRedisInsight();
 
 var apiService = builder.AddProject<Projects.CommunityHub_Api>("apiservice")
-    .WithReference(postgresdb);
+    .WithReference(postgresdb)
+    .WaitFor(postgresdb);
 
 builder.AddProject<Projects.CommunityHub_Frontend>("webfrontend")
     .WithExternalHttpEndpoints()

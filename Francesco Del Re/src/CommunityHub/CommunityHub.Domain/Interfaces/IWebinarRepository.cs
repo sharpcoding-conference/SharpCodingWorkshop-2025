@@ -4,7 +4,7 @@ namespace CommunityHub.Domain.Interfaces
 {
     public interface IWebinarRepository : IRepository<Webinar>
     {
-        Task<Webinar> GetByIdAsync(Guid id);
+        Task<Webinar?> GetByIdAsync(Guid id);
         Task<IEnumerable<Webinar>> GetAllAsync();
         Task AddAsync(Webinar entity);
         Task UpdateAsync(Webinar entity);

@@ -7,7 +7,6 @@ namespace CommunityHub.Application.Interfaces
         Task<Guid> CreateBookingAsync(BookingDto bookingDto);
         Task<IEnumerable<BookingDto>> GetAllBookingsAsync();
         Task<BookingDto> GetBookingByIdAsync(Guid bookingId);
-        Task<IEnumerable<BookingDto>> GetBookingsByUserIdAsync(Guid userId);
         Task<bool> UpdateBookingAsync(Guid bookingId, BookingDto bookingDto);
         Task<bool> DeleteBookingAsync(Guid bookingId);
         Task CancelBookingAsync(Guid bookingId);

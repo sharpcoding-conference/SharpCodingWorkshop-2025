@@ -1,4 +1,5 @@
-﻿using CommunityHub.Application.DTOs;
+﻿using AutoMapper;
+using CommunityHub.Application.DTOs;
 using CommunityHub.Application.Exceptions;
 using CommunityHub.Application.Interfaces;
 using CommunityHub.Domain.Entities;
@@ -10,44 +11,26 @@ namespace CommunityHub.Application.Services
     public class WebinarService : IWebinarService
     {
         private readonly IRepository<Webinar> _webinarRepository;
+        private readonly IMapper _mapper;
 
-        public WebinarService(IRepository<Webinar> webinarRepository)
+        public WebinarService(IRepository<Webinar> webinarRepository, IMapper mapper)
         {
             _webinarRepository = webinarRepository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<WebinarDto>> GetAllWebinarsAsync()
         {
             var webinars = await _webinarRepository.GetAllAsync();
-            return webinars.Select(e => new WebinarDto
-            {
-                Id = e.Id,
-                Title = e.Title,
-                Description = e.Description,
-                StartDate = e.DateRange.StartDate,
-                EndDate = e.DateRange.EndDate,
-                TotalSeats = e.TotalSeats,
-                AvailableSeats = e.AvailableSeats,
-                IsActive = e.IsActive
-            });
+            return _mapper.Map<IEnumerable<WebinarDto>>(webinars);
         }
 
-        public async Task<WebinarDto> GetWebinarByIdAsync(Guid webinarId)
+        public async Task<WebinarDetailDto> GetWebinarByIdAsync(Guid webinarId)
         {
-            var webinarEntity = await _webinarRepository.GetByIdAsync(webinarId)
+            var webinar = await _webinarRepository.GetByIdAsync(webinarId)
                 ?? throw new WebinarNotFoundException($"Webinar with ID {webinarId} not found.");
 
-            return new WebinarDto
-            {
-                Id = webinarEntity.Id,
-                Title = webinarEntity.Title,
-                Description = webinarEntity.Description,
-                StartDate = webinarEntity.DateRange.StartDate,
-                EndDate = webinarEntity.DateRange.EndDate,
-                TotalSeats = webinarEntity.TotalSeats,
-                AvailableSeats = webinarEntity.AvailableSeats,
-                IsActive = webinarEntity.IsActive
-            };
+            return _mapper.Map<WebinarDetailDto>(webinar);
         }
 
         public async Task<Guid> CreateWebinarAsync(WebinarDto webinarDto)

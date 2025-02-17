@@ -1,4 +1,5 @@
-﻿using CommunityHub.Application.DTOs;
+﻿using AutoMapper;
+using CommunityHub.Application.DTOs;
 using CommunityHub.Application.Exceptions;
 using CommunityHub.Application.Interfaces;
 using CommunityHub.Domain.Entities;
@@ -10,23 +11,20 @@ namespace CommunityHub.Application.Services
     public class UserService : IUserService
     {
         private readonly IRepository<User> _userRepository;
+        private readonly IMapper _mapper;
 
-        public UserService(IRepository<User> userRepository)
+        public UserService(IRepository<User> userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
-        public async Task<UserDto> GetUserByIdAsync(Guid userId)
+        public async Task<UserDetailDto> GetUserByIdAsync(Guid userId)
         {
             var user = await _userRepository.GetByIdAsync(userId)
                 ?? throw new UserNotFoundException($"User with ID {userId} not found.");
 
-            return new UserDto
-            {
-                Id = user.Id,
-                Name = user.Name,
-                Email = user.Email.Value
-            };
+            return _mapper.Map<UserDetailDto>(user);
         }
 
         public async Task<Guid> CreateUserAsync(UserDto userDto)
@@ -40,12 +38,7 @@ namespace CommunityHub.Application.Services
         public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
         {
             var users = await _userRepository.GetAllAsync();
-            return users.Select(user => new UserDto
-            {
-                Id = user.Id,
-                Name = user.Name,
-                Email = user.Email.Value
-            });
+            return _mapper.Map<IEnumerable<UserDto>>(users);
         }
 
         public async Task UpdateUserAsync(UserDto userDto)

@@ -1,4 +1,5 @@
-﻿using CommunityHub.Application.DTOs;
+﻿using AutoMapper;
+using CommunityHub.Application.DTOs;
 using CommunityHub.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,14 +10,18 @@ namespace CommunityHub.Api.Controllers
     public class WebinarController : ControllerBase
     {
         private readonly IWebinarService _webinarService;
+        private readonly IMapper _mapper;
 
-        public WebinarController(IWebinarService webinarService)
+        public WebinarController(IWebinarService webinarService, IMapper mapper)
         {
             _webinarService = webinarService;
+            _mapper = mapper;
         }
 
         // GET: api/Webinars
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<WebinarDto>>> GetAllWebinarsAsync()
         {
             var webinars = await _webinarService.GetAllWebinarsAsync();
@@ -25,38 +30,47 @@ namespace CommunityHub.Api.Controllers
 
         // GET: api/Webinar/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<WebinarDto>> GetWebinarByIdAsync(Guid id)
+        [ActionName("GetWebinarByIdAsync")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<WebinarDetailDto>> GetWebinarByIdAsync(Guid id)
         {
-            var webinarDto = await _webinarService.GetWebinarByIdAsync(id);
-            if (webinarDto == null)
+            var webinar = await _webinarService.GetWebinarByIdAsync(id);
+            if (webinar == null)
             {
                 return NotFound();
             }
-            return Ok(webinarDto);
+            return Ok(webinar);
         }
 
         // POST: api/Webinar
         [HttpPost]
-        public async Task<ActionResult<WebinarDto>> CreateWebinarAsync([FromBody] WebinarDto eventDto)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<WebinarDto>> CreateWebinarAsync([FromBody] WebinarDto webinarDto)
         {
-            var createdWebinarId = await _webinarService.CreateWebinarAsync(eventDto);
-            return CreatedAtAction(nameof(CreateWebinarAsync), new { id = createdWebinarId });
+            var webinarId = await _webinarService.CreateWebinarAsync(webinarDto);
+            return CreatedAtAction(nameof(GetWebinarByIdAsync), new { id = webinarId }, webinarId);
         }
 
         // PUT: api/Webinar
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> UpdateWebinarAsync([FromBody] WebinarDto webinarDto)
         {
             await _webinarService.UpdateWebinarAsync(webinarDto);
-            return CreatedAtAction(nameof(UpdateWebinarAsync), new { webinarDto.Id });
+            return NoContent();
         }
 
         // DELETE: api/Webinar/{id}
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> DeleteWebinarAsync(Guid id)
         {
             await _webinarService.DeleteWebinarAsync(id);
-            return CreatedAtAction(nameof(DeleteWebinarAsync), new { id });
+            return NoContent();
         }
     }
 }

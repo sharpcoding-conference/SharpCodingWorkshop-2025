@@ -2,6 +2,7 @@
 @using CommunityHub.Application.DTOs
 @inject HttpClient Http
 @inject NavigationManager Navigation
+@rendermode InteractiveServer
 
 <h3>Users</h3>
 
@@ -18,7 +19,7 @@
             <tr>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Action</th>
+                <th>Details</th>
             </tr>
         </thead>
         <tbody>
@@ -30,7 +31,13 @@
                         <td>@user.Name</td>
                         <td>@user.Email</td>
                         <td>
-                            <button class="btn btn-primary" @onclick="() => NavigateToUserDetails(user.Id)">View Details</button>
+                            <button type="button"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#userDetails"
+                                    class="btn btn-primary"
+                                    @onclick="() => OpenModal(user.Id)">
+                                View Details
+                            </button>
                         </td>
                     </tr>
                 }
@@ -46,6 +53,64 @@
 </div>
 
 <button class="btn btn-primary" @onclick="NavigateToCreateUser">Create New User</button>
+
+<!-- Modal -->
+<div class="modal modal-lg fade" id="userDetails" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-5">User Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @if (selectedUser == null)
+                {
+                    <p>Loading...</p>
+                }
+                else
+                {
+                    <p><strong>Name:</strong> @selectedUser.Name</p>
+                    <p><strong>Email:</strong> @selectedUser.Email</p>
+                    <div>
+                        <hr />
+                        <h5>Bookings</h5>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (selectedUser.Bookings.Any())
+                                {
+                                    @foreach (var booking in selectedUser.Bookings)
+                                    {
+                                        <tr>
+                                            <td>@booking.Webinar!.Title</td>
+                                            <td>@booking.Webinar!.StartDate</td>
+                                            <td>@booking.Webinar!.EndDate</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="3" class="text-center">No bookings available</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" @onclick="() => NavigateToUpdateUser(selectedUser!.Id)">Update User</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <style>
     .loading-overlay {
@@ -68,11 +133,16 @@
     .position-relative {
         position: relative;
     }
+
+    .modal table {
+        width: 100%;
+    }
 </style>
 
 @code {
     private List<UserDto> users = new List<UserDto>();
     private bool isLoading = true;
+    private UserDetailDto? selectedUser;
 
     protected override async Task OnInitializedAsync()
     {
@@ -84,17 +154,29 @@
         isLoading = true;
         try
         {
-            var response = await Http.GetFromJsonAsync<List<UserDto>>("api/users");
-            users = response ?? new List<UserDto>();
+            users = await Http.GetFromJsonAsync<List<UserDto>>("user") ?? [];
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error: {ex.Message}");
-            users = new List<UserDto>(); // Assicura che la lista venga comunque visualizzata come vuota in caso di errore
+            users = []; // Assicura che la lista venga comunque visualizzata come vuota in caso di errore
         }
         finally
         {
             isLoading = false;
+        }
+    }
+
+    private async Task OpenModal(Guid userId)
+    {
+        selectedUser = null;
+        try
+        {
+            selectedUser = await Http.GetFromJsonAsync<UserDetailDto>($"user/{userId}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
         }
     }
 
@@ -103,8 +185,8 @@
         Navigation.NavigateTo("/createuser");
     }
 
-    private void NavigateToUserDetails(Guid userId)
+    private void NavigateToUpdateUser(Guid userId)
     {
-        Navigation.NavigateTo($"/user/{userId}");
+        Navigation.NavigateTo($"/updateuser/{userId}");
     }
 }

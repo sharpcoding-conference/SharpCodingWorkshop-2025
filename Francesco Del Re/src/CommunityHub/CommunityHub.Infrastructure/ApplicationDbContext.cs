@@ -25,11 +25,20 @@ namespace CommunityHub.Infrastructure
             modelBuilder.Entity<Webinar>().HasKey(e => e.Id);
             modelBuilder.Entity<Booking>().HasKey(b => b.Id);
             modelBuilder.Entity<WebinarDateRange>().HasKey(w => w.Id);
-        }
 
-        public void EnsureDatabaseCreated()
-        {
-            Database.EnsureCreated();
+            // Relazione Booking -> Webinar (molti a uno)
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.Webinar)
+                .WithMany(w => w.Bookings)
+                .HasForeignKey(b => b.WebinarId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Relazione Booking -> User (molti a uno)
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.User)
+                .WithMany(u => u.Bookings)
+                .HasForeignKey(b => b.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

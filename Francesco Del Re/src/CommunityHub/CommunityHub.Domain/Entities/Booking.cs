@@ -6,6 +6,8 @@
         public Guid WebinarId { get; private set; }
         public Guid UserId { get; private set; }
         public DateTime BookingDate { get; private set; }
+        public Webinar? Webinar { get; private set; }
+        public User? User { get; private set; }
 
         // EF Core requires a parameterless constructor for entities
         private Booking() { }

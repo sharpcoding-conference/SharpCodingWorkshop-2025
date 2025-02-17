@@ -12,6 +12,7 @@ namespace CommunityHub.Domain.Entities
         public int TotalSeats { get; private set; }
         public int AvailableSeats { get; private set; }
         public bool IsActive { get; private set; }
+        public ICollection<Booking> Bookings { get; private set; } = [];
 
         // EF Core requires a parameterless constructor for entities
         private Webinar() { }
