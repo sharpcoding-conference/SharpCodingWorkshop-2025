@@ -2,6 +2,7 @@
 @using CommunityHub.Application.DTOs
 @inject HttpClient Http
 @inject NavigationManager Navigation
+@inject IJSRuntime JsRuntime
 @rendermode InteractiveServer
 
 <h3>Users</h3>
@@ -32,10 +33,10 @@
                         <td>@user.Email</td>
                         <td>
                             <button type="button"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#userDetails"
-                                    class="btn btn-primary"
-                                    @onclick="() => OpenModal(user.Id)">
+                            data-bs-toggle="modal"
+                            data-bs-target="#userDetailsModal"
+                            class="btn btn-primary"
+                            @onclick="() => OpenUserDetailsModal(user.Id)">
                                 View Details
                             </button>
                         </td>
@@ -52,10 +53,16 @@
     </table>
 </div>
 
-<button class="btn btn-primary" @onclick="NavigateToCreateUser">Create New User</button>
+<button type="button" 
+    class="btn btn-primary"
+    data-bs-toggle="modal"
+    data-bs-target="#userAddModal"
+    @onclick="ClearUserAddModal">
+        Create New User
+</button>
 
-<!-- Modal -->
-<div class="modal modal-lg fade" id="userDetails" tabindex="-1" role="dialog">
+<!-- User Details Modal -->
+<div class="modal modal-lg fade" id="userDetailsModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -71,20 +78,21 @@
                 {
                     <p><strong>Name:</strong> @selectedUser.Name</p>
                     <p><strong>Email:</strong> @selectedUser.Email</p>
-                    <div>
-                        <hr />
-                        <h5>Bookings</h5>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (selectedUser.Bookings.Any())
-                                {
+
+                    @if (selectedUser.Bookings.Any())
+                    {
+                        <div>
+                            <hr />
+                            <h5>Bookings</h5>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
                                     @foreach (var booking in selectedUser.Bookings)
                                     {
                                         <tr>
@@ -93,24 +101,41 @@
                                             <td>@booking.Webinar!.EndDate</td>
                                         </tr>
                                     }
-                                }
-                                else
-                                {
-                                    <tr>
-                                        <td colspan="3" class="text-center">No bookings available</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                                </tbody>
+                            </table>
+                        </div>
+                    }
                 }
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" @onclick="() => NavigateToUpdateUser(selectedUser!.Id)">Update User</button>
             </div>
         </div>
     </div>
 </div>
+
+<!-- User Add Modal -->
+<div class="modal modal-lg fade" id="userAddModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-5">Add User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="user-name">Name *</span>
+                    <input type="text" @bind-value="Name" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="user-name">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="user-email">Email *</span>
+                    <input type="text" @bind-value="Email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="user-email">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-dismiss="modal" @onclick="() => AddUser()" disabled="@IsSaveDisabled">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <style>
     .loading-overlay {
@@ -143,6 +168,9 @@
     private List<UserDto> users = new List<UserDto>();
     private bool isLoading = true;
     private UserDetailDto? selectedUser;
+    private string Name = string.Empty;
+    private string Email = string.Empty;
+    private bool IsSaveDisabled => string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(Email);
 
     protected override async Task OnInitializedAsync()
     {
@@ -167,7 +195,7 @@
         }
     }
 
-    private async Task OpenModal(Guid userId)
+    private async Task OpenUserDetailsModal(Guid userId)
     {
         selectedUser = null;
         try
@@ -180,13 +208,42 @@
         }
     }
 
-    private void NavigateToCreateUser()
+    private void ClearUserAddModal()
     {
-        Navigation.NavigateTo("/createuser");
+        Name = string.Empty;
+        Email = string.Empty;
     }
 
-    private void NavigateToUpdateUser(Guid userId)
+    private async Task AddUser()
     {
-        Navigation.NavigateTo($"/updateuser/{userId}");
+        isLoading = true;
+        try
+        {
+            var response = await Http.PostAsJsonAsync<UserDto>("user", new UserDto()
+            {
+                Name = Name,
+                Email = Email
+            });
+
+            if (response.IsSuccessStatusCode)
+            {
+                await LoadUsers();
+            }
+            else
+            {
+                await JsRuntime.InvokeVoidAsync("alert",
+                    await response.Content.ReadAsStringAsync()
+                );
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            await JsRuntime.InvokeVoidAsync("alert", ex.Message);
+        }
+        finally
+        {
+            isLoading = false;
+        }
     }
 }

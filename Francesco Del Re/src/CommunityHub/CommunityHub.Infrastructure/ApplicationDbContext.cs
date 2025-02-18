@@ -10,8 +10,10 @@ namespace CommunityHub.Infrastructure
         public DbSet<Webinar> Webinars { get; set; }
         public DbSet<Booking> Bookings { get; set; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
