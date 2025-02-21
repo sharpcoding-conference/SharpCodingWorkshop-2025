@@ -36,8 +36,8 @@
                     <tr>
                         <td>@webinar.Title</td>
                         <td>@webinar.Description</td>
-                        <td>@webinar.StartDate.ToString("dd/MM/yyyy HH:mm")</td>
-                        <td>@webinar.EndDate.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>@webinar.StartDate.ToString("dd/MM/yyyy")</td>
+                        <td>@webinar.EndDate.ToString("dd/MM/yyyy")</td>
                         <td>@webinar.TotalSeats</td>
                         <td>@webinar.AvailableSeats</td>
                         <td>@(webinar.IsActive ? "Active" : "Inactive")</td>
@@ -88,8 +88,8 @@
                 {
                     <p><strong>Title:</strong> @selectedWebinar.Title</p>
                     <p><strong>Description:</strong> @selectedWebinar.Description</p>
-                    <p><strong>Start Date:</strong> @selectedWebinar.StartDate.ToString("dd/MM/yyyy HH:mm")</p>
-                    <p><strong>End Date:</strong> @selectedWebinar.EndDate.ToString("dd/MM/yyyy HH:mm")</p>
+                    <p><strong>Start Date:</strong> @selectedWebinar.StartDate.ToString("dd/MM/yyyy")</p>
+                    <p><strong>End Date:</strong> @selectedWebinar.EndDate.ToString("dd/MM/yyyy")</p>
                     <p><strong>Total Seats:</strong> @selectedWebinar.TotalSeats</p>
                     <p><strong>Available Seats:</strong> @selectedWebinar.AvailableSeats</p>
                     <p><strong>Status:</strong> @(selectedWebinar.IsActive ? "Active" : "Inactive")</p>
@@ -155,14 +155,6 @@
                     <span class="input-group-text" id="webinar-totalseats">Total Seats *</span>
                     <input type="number" @bind-value="TotalSeats" class="form-control" placeholder="Total Seats" aria-label="TotalSeats" aria-describedby="webinar-totalseats">
                 </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="webinar-availableseats">Available Seats</span>
-                    <input type="number" @bind-value="AvailableSeats" class="form-control" placeholder="Available Seats" aria-label="AvailableSeats" aria-describedby="webinar-availableseats">
-                </div>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="switchActive" @bind-value="IsActive" checked>
-                    <label class="form-check-label" for="switchActive">Active</label>
-                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" data-bs-dismiss="modal" @onclick="() => AddWebinar()" disabled="@IsSaveDisabled">Save</button>
@@ -207,8 +199,6 @@
     private DateTime? StartDate;
     private DateTime? EndDate;
     private int TotalSeats;
-    private int AvailableSeats;
-    private bool IsActive;
     private bool IsSaveDisabled => string.IsNullOrWhiteSpace(Title) || StartDate is null || EndDate is null || TotalSeats < 1;
 
     protected override async Task OnInitializedAsync()
@@ -255,8 +245,6 @@
         StartDate = null;
         EndDate = null;
         TotalSeats = 0;
-        AvailableSeats = 0;
-        IsActive = true;
     }
 
     private async Task AddWebinar()
@@ -271,8 +259,8 @@
                 StartDate = StartDate!.Value,
                 EndDate = EndDate!.Value,
                 TotalSeats = TotalSeats,
-                AvailableSeats = AvailableSeats,
-                IsActive = IsActive
+                AvailableSeats = TotalSeats,
+                IsActive = true
             });
 
             if (response.IsSuccessStatusCode)

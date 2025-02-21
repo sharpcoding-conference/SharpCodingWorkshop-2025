@@ -10,10 +10,10 @@ namespace CommunityHub.Application.Services
 {
     public class WebinarService : IWebinarService
     {
-        private readonly IRepository<Webinar> _webinarRepository;
+        private readonly IWebinarRepository _webinarRepository;
         private readonly IMapper _mapper;
 
-        public WebinarService(IRepository<Webinar> webinarRepository, IMapper mapper)
+        public WebinarService(IWebinarRepository webinarRepository, IMapper mapper)
         {
             _webinarRepository = webinarRepository;
             _mapper = mapper;

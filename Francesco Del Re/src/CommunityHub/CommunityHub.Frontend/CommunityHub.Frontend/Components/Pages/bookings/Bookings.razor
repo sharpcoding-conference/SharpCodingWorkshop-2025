@@ -1,7 +1,9 @@
 ﻿@page "/bookings"
 @using CommunityHub.Application.DTOs
 @inject HttpClient Http
+@inject IJSRuntime JsRuntime
 @inject NavigationManager Navigation
+@rendermode InteractiveServer
 
 <h3>Bookings</h3>
 
@@ -21,6 +23,7 @@
                 <th>End Date</th>
                 <th>Attendee</th>
                 <th>Booking Date</th>
+                <th>Cancel Booking</th>
             </tr>
         </thead>
         <tbody>
@@ -30,24 +33,78 @@
                 {
                     <tr>
                         <td>@booking.Webinar!.Title</td>
-                        <td>@booking.Webinar!.StartDate</td>
-                        <td>@booking.Webinar!.EndDate</td>
+                        <td>@booking.Webinar!.StartDate.ToString("dd/MM/yyyy")</td>
+                        <td>@booking.Webinar!.EndDate.ToString("dd/MM/yyyy")</td>
                         <td>@booking.User!.Name</td>
                         <td>@booking.BookingDate</td>
+                        <td>
+                            <button
+                                type="button"
+                                class="btn btn-danger"
+                                @onclick="() => CancelBooking(booking.Id)">
+                                    Cancel
+                            </button>
+                        </td>
                     </tr>
                 }
             }
             else
             {
                 <tr>
-                    <td colspan="5" class="text-center">No bookings available</td>
+                    <td colspan="6" class="text-center">No bookings available</td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
 
-<button class="btn btn-primary" @onclick="NavigateToCreateBooking">Create New Booking</button>
+<button
+    type="button"
+    class="btn btn-primary"
+    data-bs-toggle="modal"
+    data-bs-target="#bookingAddModal"
+    @onclick="() => OpenCreateBookingModal()">
+        Create New Booking
+</button>
+
+<!-- User Add Modal -->
+<div class="modal modal-lg fade" id="bookingAddModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-5">Add Booking</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="booking-date">Booking Date *</span>
+                    <input type="date" @bind-value="bookingDate" class="form-control" placeholder="Booking Date" aria-label="BookingDate" aria-describedby="booking-date">
+                </div>
+                <div class="input-group mb-3">
+                    <select @bind="webinarId" class="form-select" aria-label="Select Webinar">
+                        <option selected value="@Guid.Empty">Select Webinar</option>
+                        @foreach (var webinar in webinars)
+                        {
+                            <option value="@webinar.Id">@webinar.Title</option>
+                        }
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <select @bind="userId" class="form-select" aria-label="Select User">
+                        <option selected value="@Guid.Empty">Select User</option>
+                        @foreach (var user in users)
+                        {
+                            <option value="@user.Id">@user.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-dismiss="modal" @onclick="() => AddBooking()" disabled="@IsSaveDisabled">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <style>
     .loading-overlay {
@@ -75,6 +132,12 @@
 @code {
     private List<BookingDto> bookings = new List<BookingDto>();
     private bool isLoading = true;
+    private DateTime? bookingDate;
+    private List<WebinarDto> webinars = [];
+    private List<UserDto> users = [];
+    private Guid userId = Guid.Empty;
+    private Guid webinarId = Guid.Empty;
+    private bool IsSaveDisabled => userId == Guid.Empty || webinarId == Guid.Empty || bookingDate is null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -100,8 +163,88 @@
         }
     }
 
-    private void NavigateToCreateBooking()
+    private async Task OpenCreateBookingModal()
     {
-        Navigation.NavigateTo("/createbooking");
+        isLoading = true;
+        try
+        {
+            bookingDate = null;
+            userId = Guid.Empty;
+            webinarId = Guid.Empty;
+
+            users = await Http.GetFromJsonAsync<List<UserDto>>($"user") ?? [];
+            webinars = await Http.GetFromJsonAsync<List<WebinarDto>>($"webinar") ?? [];
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task AddBooking()
+    {
+        isLoading = true;
+        try
+        {
+            var response = await Http.PostAsJsonAsync<CreateBookingDto>("booking", new CreateBookingDto()
+            {
+                UserId = userId,
+                WebinarId = webinarId,
+                BookingDate = bookingDate!.Value
+            });
+
+            if (response.IsSuccessStatusCode)
+            {
+                await LoadBookings();
+            }
+            else
+            {
+                await JsRuntime.InvokeVoidAsync("alert",
+                    await response.Content.ReadAsStringAsync()
+                );
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            await JsRuntime.InvokeVoidAsync("alert", ex.Message);
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task CancelBooking(Guid bookingId)
+    {
+        isLoading = true;
+        try
+        {
+            var response = await Http.DeleteAsync($"booking/{bookingId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                await LoadBookings();
+            }
+            else
+            {
+                await JsRuntime.InvokeVoidAsync("alert",
+                    await response.Content.ReadAsStringAsync()
+                );
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            await JsRuntime.InvokeVoidAsync("alert", ex.Message);
+        }
+        finally
+        {
+            isLoading = false;
+        }
     }
 }

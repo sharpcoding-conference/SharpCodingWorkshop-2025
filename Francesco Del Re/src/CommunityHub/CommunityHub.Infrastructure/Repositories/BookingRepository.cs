@@ -59,5 +59,10 @@ namespace CommunityHub.Infrastructure.Repositories
         {
             return await _context.Bookings.Where(b => b.UserId == userId).ToListAsync();
         }
+
+        public async Task<bool> UserAlreadyBookedAsync(Guid userId, Guid webinarId)
+        {
+            return await _context.Bookings.AnyAsync(b => b.UserId == userId && b.WebinarId == webinarId);
+        }
     }
 }
