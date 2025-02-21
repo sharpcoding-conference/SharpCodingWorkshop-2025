@@ -42,5 +42,26 @@ namespace CommunityHub.Infrastructure
                 .HasForeignKey(b => b.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
+
+        // Override di SaveChanges per intercettare nuove prenotazioni
+        // e aggiornare il numero di posti disponibili del relativo Webinar
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            foreach (var entry in ChangeTracker.Entries<Booking>())
+            {
+                var webinar = await Webinars.FindAsync([entry.Entity.WebinarId], cancellationToken);
+
+                if (entry.State == EntityState.Added)
+                {
+                    webinar?.ReserveSeat();
+                }
+                else if (entry.State == EntityState.Deleted)
+                {
+                    webinar?.CancelSeatReservation();
+                }
+            }
+
+            return await base.SaveChangesAsync(cancellationToken);
+        }
     }
 }

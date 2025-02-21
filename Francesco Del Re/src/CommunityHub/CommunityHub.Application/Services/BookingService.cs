@@ -3,17 +3,18 @@ using CommunityHub.Application.DTOs;
 using CommunityHub.Application.Exceptions;
 using CommunityHub.Application.Interfaces;
 using CommunityHub.Domain.Entities;
+using CommunityHub.Domain.Exceptions;
 using CommunityHub.Domain.Interfaces;
 
 namespace CommunityHub.Application.Services
 {
     public class BookingService : IBookingService
     {
-        private readonly IRepository<Booking> _bookingRepository;
-        private readonly IRepository<Webinar> _webinarRepository;
+        private readonly IBookingRepository _bookingRepository;
+        private readonly IWebinarRepository _webinarRepository;
         private readonly IMapper _mapper;
 
-        public BookingService(IRepository<Booking> bookingRepository, IRepository<Webinar> webinarRepository, IMapper mapper)
+        public BookingService(IBookingRepository bookingRepository, IWebinarRepository webinarRepository, IMapper mapper)
         {
             _bookingRepository = bookingRepository;
             _webinarRepository = webinarRepository;
@@ -24,6 +25,11 @@ namespace CommunityHub.Application.Services
         {
             var webinarEntity = await _webinarRepository.GetByIdAsync(bookingDto.WebinarId)
                 ?? throw new WebinarNotFoundException($"Webinar with ID {bookingDto.WebinarId} not found.");
+
+            if (await _bookingRepository.UserAlreadyBookedAsync(bookingDto.UserId, bookingDto.WebinarId))
+                throw new BookingLimitExceededException(
+                    $"User with ID {bookingDto.UserId} is already booked in Webinar with ID {bookingDto.WebinarId}"
+                );
 
             webinarEntity.ReserveSeat();
 
