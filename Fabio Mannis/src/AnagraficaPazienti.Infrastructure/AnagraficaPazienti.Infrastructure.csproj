@@ -1,10 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\AnagraficaPazienti.Domain\AnagraficaPazienti.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.2">
