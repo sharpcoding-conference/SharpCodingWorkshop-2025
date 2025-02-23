@@ -3,25 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalRecords.Infrastructure", "MedicalRecords.Infrastructure\MedicalRecords.Infrastructure.csproj", "{0EBEEF8A-04F5-4DAB-9F5F-8E41FFCF69A8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalRecords.API", "MedicalRecords.API\MedicalRecords.API.csproj", "{15954A95-FBE9-4C2C-BC21-95B1A1302D56}"
-EndProject
 Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0EBEEF8A-04F5-4DAB-9F5F-8E41FFCF69A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0EBEEF8A-04F5-4DAB-9F5F-8E41FFCF69A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0EBEEF8A-04F5-4DAB-9F5F-8E41FFCF69A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0EBEEF8A-04F5-4DAB-9F5F-8E41FFCF69A8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{15954A95-FBE9-4C2C-BC21-95B1A1302D56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{15954A95-FBE9-4C2C-BC21-95B1A1302D56}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{15954A95-FBE9-4C2C-BC21-95B1A1302D56}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15954A95-FBE9-4C2C-BC21-95B1A1302D56}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
