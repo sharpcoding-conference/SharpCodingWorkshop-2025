@@ -1,0 +1,33 @@
+﻿@page
+@model AnagraficaMedica.Frontend.Pages.PatientModel
+
+<h1>Lista Pazienti</h1>
+
+<table class="table">
+	<thead>
+	<tr>
+		<th>Nome</th>
+		<th>Cognome</th>
+		<th>Data di nascita</th>
+		<th>Codice fiscale</th>
+		<th>Azioni</th>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var patient in Model.Patients)
+	{
+		<tr>
+			<td>@patient.FirstName</td>
+			<td>@patient.LastName</td>
+			<td>@patient.DateOfBirth.ToShortDateString()</td>
+			<td>@patient.FiscalCode</td>
+			<td>
+				<a href="@Url.Page("Details", new { id = patient.Id })">Dettagli</a> |
+				<a href="@Url.Page("Edit", new { id = patient.Id })">Modifica</a> |
+				<a href="@Url.Page("Delete", new { id = patient.Id })">Elimina</a>
+			</td>
+		</tr>
+	}
+	</tbody>
+</table>
+<a href="@Url.Page("Create")" class="btn btn-primary">Aggiungi Paziente</a>
