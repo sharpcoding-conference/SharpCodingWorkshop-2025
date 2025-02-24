@@ -34,6 +34,34 @@ namespace AnagraficaMedica.Infrastructure.Persistence
                 context.Doctors.AddRange(doctors);
                 context.SaveChanges();
             }
+
+            if (!context.HealthcareFacilities.Any())
+            {
+                var facilities = new List<HealthcareFacility>
+                {
+                    new HealthcareFacility
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "Ospedale San Raffaele",
+                        Address = "Via Olgettina, 60",
+                        City = "Milano",
+                        PhoneNumber = "0251431",
+                        Email = "info@sanraffaele.it"
+                    },
+                    new HealthcareFacility
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "Policlinico Gemelli",
+                        Address = "Largo Agostino Gemelli, 8",
+                        City = "Roma",
+                        PhoneNumber = "0630151",
+                        Email = "info@gemelli.it"
+                    }
+                };
+
+                context.HealthcareFacilities.AddRange(facilities);
+                context.SaveChanges();
+            }
         }
     }
 }

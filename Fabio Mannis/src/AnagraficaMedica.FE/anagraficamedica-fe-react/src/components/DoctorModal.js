@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, Alert } from "react-bootstrap";
 import { addDoctor, updateDoctor } from "../services/doctorService";
 
 const DoctorModal = ({ show, onHide, doctorData, refreshDoctors }) => {
@@ -12,6 +12,9 @@ const DoctorModal = ({ show, onHide, doctorData, refreshDoctors }) => {
     phoneNumber: "",
     email: "",
   });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // Se arriva un dottore da modificare, popola i campi
   useEffect(() => {
@@ -37,6 +40,11 @@ const DoctorModal = ({ show, onHide, doctorData, refreshDoctors }) => {
   // Gestisce l'invio del form
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Resetta l'errore precedente
+    setError(null);
+    setLoading(true);
+
     try {
       if (doctorData) {
         await updateDoctor(doctor.id, doctor); // Modifica esistente
@@ -48,6 +56,9 @@ const DoctorModal = ({ show, onHide, doctorData, refreshDoctors }) => {
       onHide(); // Chiude la modale
     } catch (error) {
       console.error("Errore nel salvataggio del dottore:", error);
+      setError("Si è verificato un errore durante il salvataggio del dottore.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -57,6 +68,9 @@ const DoctorModal = ({ show, onHide, doctorData, refreshDoctors }) => {
         <Modal.Title>{doctorData ? "Modifica Dottore" : "Aggiungi Dottore"}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {/* Visualizza l'errore se presente */}
+        {error && <Alert variant="danger">{error}</Alert>}
+
         <Form onSubmit={handleSubmit}>
           {/* Nome */}
           <Form.Group className="mb-3">
@@ -118,11 +132,11 @@ const DoctorModal = ({ show, onHide, doctorData, refreshDoctors }) => {
 
           {/* Pulsanti */}
           <div className="text-end">
-            <Button variant="secondary" onClick={onHide} className="me-2">
+            <Button variant="secondary" onClick={onHide} className="me-2" disabled={loading}>
               Annulla
             </Button>
-            <Button variant="primary" type="submit">
-              {doctorData ? "Salva Modifiche" : "Aggiungi"}
+            <Button variant="primary" type="submit" disabled={loading}>
+              {loading ? "Caricamento..." : doctorData ? "Salva Modifiche" : "Aggiungi"}
             </Button>
           </div>
         </Form>

@@ -9,5 +9,7 @@ namespace AnagraficaMedica.Infrastructure.Persistence
 
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Doctor> Doctors { get; set; } // Aggiungi DbSet per i medici
+
+        public DbSet<HealthcareFacility> HealthcareFacilities { get; set; }
     }
 }
