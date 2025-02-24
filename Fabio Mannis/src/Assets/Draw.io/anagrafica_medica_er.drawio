@@ -1,0 +1,46 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.0.15 Chrome/132.0.6834.196 Electron/34.2.0 Safari/537.36" version="26.0.15">
+  <diagram id="xFMH2pZNcgWt4-2o_hSb" name="Pagina-1">
+    <mxGraphModel dx="941" dy="644" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Paziente" value="Paziente (ID_Paziente, Nome, Cognome, Data_Nascita, Codice_Fiscale, Telefono, Email, Indirizzo, ID_Medico_Ref)" style="shape=rectangle;whiteSpace=wrap;fillColor=#D9EAD3;" parent="1" vertex="1">
+          <mxGeometry x="50" y="50" width="200" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="Medico" value="Medico (ID_Medico, Nome, Cognome, Specializzazione, Telefono, Email, ID_Struttura)" style="shape=rectangle;whiteSpace=wrap;fillColor=#CFE2F3;" parent="1" vertex="1">
+          <mxGeometry x="590" y="30" width="200" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="CartellaClinica" value="Cartella Clinica (ID_Cartella, ID_Paziente, Diagnosi, Allergie, Terapie, Farmaci)" style="shape=rectangle;whiteSpace=wrap;fillColor=#FFD966;" parent="1" vertex="1">
+          <mxGeometry x="290" y="30" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="EsameDiagnostico" value="Esame Diagnostico (ID_Esame, ID_Paziente, Tipo_Esame, Data_Esame, ID_Medico_Ref, Risultati)" style="shape=rectangle;whiteSpace=wrap;fillColor=#EAD1DC;" parent="1" vertex="1">
+          <mxGeometry x="290" y="330" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Appuntamento" value="Appuntamento (ID_Appuntamento, ID_Paziente, ID_Medico, Data_Ora, Tipo_Visita)" style="shape=rectangle;whiteSpace=wrap;fillColor=#B6D7A8;" parent="1" vertex="1">
+          <mxGeometry x="50" y="350" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="StrutturaSanitaria" value="Struttura Sanitaria (ID_Struttura, Nome, Indirizzo, Tipo)" style="shape=rectangle;whiteSpace=wrap;fillColor=#D9D2E9;" parent="1" vertex="1">
+          <mxGeometry x="510" y="370" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rel1" parent="1" source="Paziente" target="CartellaClinica" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel2" parent="1" source="Paziente" target="EsameDiagnostico" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel3" parent="1" source="EsameDiagnostico" target="Medico" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel4" parent="1" source="Paziente" target="Appuntamento" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel5" parent="1" source="Appuntamento" target="Medico" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel6" parent="1" source="Medico" target="StrutturaSanitaria" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
