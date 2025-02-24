@@ -8,6 +8,7 @@ namespace CommunityHub.Application.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            // Registra i servizi associati alle entità
             services.AddScoped<IWebinarService, WebinarService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IBookingService, BookingService>();

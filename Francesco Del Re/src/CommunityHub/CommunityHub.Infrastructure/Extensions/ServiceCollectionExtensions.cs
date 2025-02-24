@@ -9,7 +9,7 @@ namespace CommunityHub.Infrastructure.Extensions
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
         {
-            // Registra repository e altri servizi
+            // Registra i repository
             services.AddScoped<IWebinarRepository, WebinarRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IBookingRepository, BookingRepository>();
