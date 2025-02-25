@@ -1,0 +1,38 @@
+<div class="container">
+    <h2>Gestione Pazienti</h2>
+  
+    <div class="form">
+      <input [(ngModel)]="newPatient.firstName" placeholder="Nome" />
+      <input [(ngModel)]="newPatient.lastName" placeholder="Cognome" />
+      <input [(ngModel)]="newPatient.taxCode" placeholder="Codice Fiscale" />
+      <button (click)="addPatient()">Aggiungi Paziente</button>
+    </div>
+  
+    <h3>Lista Pazienti</h3>
+    <table>
+      <tr>
+        <th>Nome</th>
+        <th>Cognome</th>
+        <th>Codice Fiscale</th>
+        <th>Azioni</th>
+      </tr>
+      <tr *ngFor="let patient of patients">
+        <td>{{ patient.firstName }}</td>
+        <td>{{ patient.lastName }}</td>
+        <td>{{ patient.taxCode }}</td>
+        <td>
+          <button (click)="selectPatient(patient)">Modifica</button>
+          <button (click)="deletePatient(patient.id!)">Elimina</button>
+        </td>
+      </tr>
+    </table>
+  
+    <div *ngIf="editPatient" class="edit-container">
+      <h3>Modifica Paziente</h3>
+      <input [(ngModel)]="editPatient.firstName" placeholder="Nome" />
+      <input [(ngModel)]="editPatient.lastName" placeholder="Cognome" />
+      <input [(ngModel)]="editPatient.taxCode" placeholder="Codice Fiscale" />
+      <button (click)="updatePatient()">Salva Modifiche</button>
+    </div>
+  </div>
+  
