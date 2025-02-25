@@ -1,10 +1,18 @@
 # Guida all'Installazione dei Software per il Workshop Sharpcoding 2025
 
-Benvenuti al workshop! Per partecipare, assicurati di aver installato i seguenti pacchetti e software sul tuo computer. Segui le istruzioni di installazione passo-passo per ogni strumento.
+Benvenuti al workshop! Per partecipare, assicurati di aver installato i seguenti pacchetti e software sul tuo computer. 
+Segui le istruzioni di installazione passo-passo per ogni strumento.
 
-## Software Richiesti
+## Software e configurazioni
 
-### 1. **Visual Studio 2022**
+### 1. Clonare il repository
+Clona il repository del workshop sul tuo computer utilizzando il seguente comando:
+
+```bash
+    git clone https://github.com/sharpcoding-conference/SharpCodingWorkshop-2025.git
+```
+
+### 2. **Visual Studio 2022**
 Visual Studio è l'IDE che utilizzeremo per lo sviluppo durante il workshop. Ecco come installarlo:
 
 #### Istruzioni di Installazione:
@@ -16,69 +24,21 @@ Visual Studio è l'IDE che utilizzeremo per lo sviluppo durante il workshop. Ecc
   - **Data storage and processing** (opzionale, se lavori con database)
 - Completa l'installazione e avvia Visual Studio.
 
-### 2. **PostgreSQL**
-PostgreSQL è il sistema di gestione di database che utilizzeremo per il workshop. Segui questi passaggi per installarlo:
-
-#### Istruzioni di Installazione:
-- Vai su [PostgreSQL Official Website](https://www.postgresql.org/download/).
-- Scegli il tuo sistema operativo e segui le istruzioni.
-  - **Windows**: Scarica l'installer e segui la procedura guidata.
-  - **macOS**: Usa **Homebrew**:
-    ```bash
-    brew install postgresql
-    ```
-  - **Linux** (Ubuntu/Debian):
-    ```bash
-    sudo apt update
-    sudo apt install postgresql postgresql-contrib
-    ```
-- Durante l'installazione, prendi nota della password dell'utente `postgres`.
-- Una volta installato, avvia il servizio PostgreSQL. Puoi farlo dal terminale con:
-  - **Windows/macOS**: Utilizza l'app pgAdmin o avvia il servizio tramite il terminale.
-  - **Linux**: Usa `sudo systemctl start postgresql`.
-
-### 3. **pgAdmin (opzionale ma consigliato)**
-pgAdmin è un'interfaccia grafica per gestire PostgreSQL. Ti aiuterà a interagire con il database in modo più semplice.
-
-#### Istruzioni di Installazione:
-- Vai su [pgAdmin Official Website](https://www.pgadmin.org/download/).
-- Scarica e installa la versione corretta per il tuo sistema operativo.
-- Dopo l'installazione, puoi connetterti al tuo database PostgreSQL utilizzando pgAdmin.
-
-### 4. **Docker (Opzionale per la configurazione rapida di PostgreSQL)**
-Se preferisci non installare PostgreSQL direttamente sul tuo sistema, puoi usare Docker per eseguire una versione contenuta di PostgreSQL.
+### 4. **Docker**
+Docker è una piattaforma che consente di creare, distribuire ed eseguire applicazioni in container.
 
 #### Istruzioni di Installazione:
 - Vai su [Docker Official Website](https://www.docker.com/products/docker-desktop) e scarica Docker Desktop.
-- Dopo averlo installato, esegui il comando seguente per avviare una istanza di PostgreSQL in un container Docker:
-  ```bash
-  docker run --name postgres-local -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword -e POSTGRES_DB=mydb -p 5432:5432 -d postgres
 
-### 5.Podman (Alternativa a Docker)
+### 5. **Podman e Podman Desktop** (alternativa a Docker)
 Se preferisci utilizzare un'alternativa open-source e gratuita a Docker Desktop, puoi configurare Podman, un motore container compatibile con Docker.
 
-- Vai su [Podman Official Website](https://podman.io/docs/installation).
+#### Istruzioni di Installazione:
+- Vai su [Podman Official Website](https://podman.io)
+- Seleziona la versione compatibile per il sistema operativo di riferimento.
+- Configura una **podman machine** con il comando ```podman machine init```.
+Se sei su Windows, ti verrà richiesta l'installazione del sottosistema Windows for Linux (WSL), in alternativa puoi installare il sottosistema manualmente. Per ulteriori dettagli consulta la documentazione ufficiale: https://github.com/containers/podman/blob/main/docs/tutorials/podman-for-windows.md 
+- Assicuratevi che sia abilitata la virtualizzazione sul vostro OS, per [abilitarla](https://support.microsoft.com/en-us/windows/enable-virtualization-on-windows-c5578302-6e43-4b4b-a449-8ced115f58e1)
 
-### 6. **Driver .NET per PostgreSQL (Npgsql)**
-Per interagire con PostgreSQL da una applicazione .NET, è necessario installare il driver Npgsql, che è una libreria ADO.NET per PostgreSQL.
-
-- Istruzioni di Installazione:
-  - Installa il pacchetto NuGet Npgsql:
-    Puoi aggiungere il pacchetto Npgsql tramite il comando NuGet o la GUI di Visual Studio:
-    Via CLI (dotnet):
-    
-    ```bash
-    dotnet add package Npgsql
-    ```
-
-    Via GUI (Visual Studio):
-    Apri NuGet Package Manager.
-    Cerca Npgsql.
-    Clicca su "Install" per aggiungere il pacchetto al tuo progetto.
-
-### 7. Clonare il repository
-Clona il repository del workshop sul tuo computer utilizzando il seguente comando:
-
-```bash
-    git clone https://github.com/sharpcoding-conference/SharpCodingWorkshop-2025.git
-```
+## Altre informazioni utili:
+- [.NET Aspire setup and tooling](https://learn.microsoft.com/en-us/dotnet/aspire/fundamentals/setup-tooling?tabs=windows&pivots=visual-studio)

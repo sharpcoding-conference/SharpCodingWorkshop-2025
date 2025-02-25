@@ -1,0 +1,45 @@
+<div class="container">
+  <h2>Gestione Medici</h2>
+
+  <div class="form">
+    <input [(ngModel)]="newDoctor.firstName" placeholder="Nome" required />
+    <input [(ngModel)]="newDoctor.lastName" placeholder="Cognome" required />
+    <input [(ngModel)]="newDoctor.specialization" placeholder="Specializzazione" required />
+    <input [(ngModel)]="newDoctor.email" type="email" placeholder="Email" required />
+    <input [(ngModel)]="newDoctor.phone" type="tel" placeholder="Telefono" required />
+    <button (click)="addDoctor()">Aggiungi Medico</button>
+  </div>
+
+  <h3>Lista Medici</h3>
+  <table>
+    <tr>
+      <th>Nome</th>
+      <th>Cognome</th>
+      <th>Specializzazione</th>
+      <th>Email</th>
+      <th>Telefono</th>
+      <th>Azioni</th>
+    </tr>
+    <tr *ngFor="let doctor of doctors">
+      <td>{{ doctor.firstName }}</td>
+      <td>{{ doctor.lastName }}</td>
+      <td>{{ doctor.specialization }}</td>
+      <td>{{ doctor.email }}</td>
+      <td>{{ doctor.phone }}</td>
+      <td>
+        <button (click)="selectDoctor(doctor)">Modifica</button>
+        <button (click)="deleteDoctor(doctor.id!)">Elimina</button>
+      </td>
+    </tr>
+  </table>
+
+  <div *ngIf="editDoctor" class="edit-container">
+    <h3>Modifica Medico</h3>
+    <input [(ngModel)]="editDoctor.firstName" placeholder="Nome" required />
+    <input [(ngModel)]="editDoctor.lastName" placeholder="Cognome" required />
+    <input [(ngModel)]="editDoctor.specialization" placeholder="Specializzazione" required />
+    <input [(ngModel)]="editDoctor.email" type="email" placeholder="Email" required />
+    <input [(ngModel)]="editDoctor.phone" type="tel" placeholder="Telefono" required />
+    <button (click)="updateDoctor()">Salva Modifiche</button>
+  </div>
+</div>
