@@ -36,4 +36,9 @@ Se preferisci utilizzare un'alternativa open-source e gratuita a Docker Desktop,
 #### Istruzioni di Installazione:
 - Vai su [Podman Official Website](https://podman.io)
 - Seleziona la versione compatibile per il sistema operativo di riferimento.
-- Assicuratevi che sia abilitata la virtualizzazione sul vostro OS.
+- Configura una **podman machine** con il comando ```podman machine init```.
+Se sei su Windows, ti verrà richiesta l'installazione del sottosistema Windows for Linux (WSL), in alternativa puoi installare il sottosistema manualmente. Per ulteriori dettagli consulta la documentazione ufficiale: https://github.com/containers/podman/blob/main/docs/tutorials/podman-for-windows.md 
+- Assicuratevi che sia abilitata la virtualizzazione sul vostro OS, per [abilitarla](https://support.microsoft.com/en-us/windows/enable-virtualization-on-windows-c5578302-6e43-4b4b-a449-8ced115f58e1)
+
+## Altre informazioni utili:
+- [.NET Aspire setup and tooling](https://learn.microsoft.com/en-us/dotnet/aspire/fundamentals/setup-tooling?tabs=windows&pivots=visual-studio)
