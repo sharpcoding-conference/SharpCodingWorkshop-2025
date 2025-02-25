@@ -21,6 +21,7 @@ namespace CommunityHub.Application.Services
             _mapper = mapper;
         }
 
+        /// <inheritdoc />
         public async Task<Guid> CreateBookingAsync(BookingDto bookingDto)
         {
             var webinarEntity = await _webinarRepository.GetByIdAsync(bookingDto.WebinarId)
@@ -43,12 +44,14 @@ namespace CommunityHub.Application.Services
             return newBooking.Id;
         }
 
+        /// <inheritdoc />
         public async Task<IEnumerable<BookingDto>> GetAllBookingsAsync()
         {
             var bookings = await _bookingRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<BookingDto>>(bookings);
         }
 
+        /// <inheritdoc />
         public async Task<BookingDto> GetBookingByIdAsync(Guid bookingId)
         {
             var booking = await _bookingRepository.GetByIdAsync(bookingId)
@@ -57,6 +60,7 @@ namespace CommunityHub.Application.Services
             return _mapper.Map<BookingDto>(booking);
         }
 
+        /// <inheritdoc />
         public async Task<bool> UpdateBookingAsync(Guid bookingId, BookingDto bookingDto)
         {
             var booking = await _bookingRepository.GetByIdAsync(bookingId);
@@ -70,6 +74,7 @@ namespace CommunityHub.Application.Services
             return true;
         }
 
+        /// <inheritdoc />
         public async Task<bool> DeleteBookingAsync(Guid bookingId)
         {
             var booking = await _bookingRepository.GetByIdAsync(bookingId);
@@ -82,6 +87,7 @@ namespace CommunityHub.Application.Services
             return true;
         }
 
+        /// <inheritdoc />
         public async Task CancelBookingAsync(Guid bookingId)
         {
             var booking = await _bookingRepository.GetByIdAsync(bookingId)
