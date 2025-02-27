@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GSD.IdentityService.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace GSD.IdentityService.Infrastructure.Persistence;
