@@ -1,6 +1,0 @@
-@GSD.IdentityServer_HostAddress = http://localhost:5150
-
-GET {{GSD.IdentityServer_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
