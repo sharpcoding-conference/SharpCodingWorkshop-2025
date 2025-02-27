@@ -1,0 +1,6 @@
+@GSD.IdentityService.WebAPI__HostAddress = http://localhost:5273
+
+GET {{GSD.IdentityService.WebAPI__HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
