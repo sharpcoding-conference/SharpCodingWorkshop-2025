@@ -19,12 +19,14 @@ namespace CommunityHub.Application.Services
             _mapper = mapper;
         }
 
+        /// <inheritdoc />
         public async Task<IEnumerable<WebinarDto>> GetAllWebinarsAsync()
         {
             var webinars = await _webinarRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<WebinarDto>>(webinars);
         }
 
+        /// <inheritdoc />
         public async Task<WebinarDetailDto> GetWebinarByIdAsync(Guid webinarId)
         {
             var webinar = await _webinarRepository.GetByIdAsync(webinarId)
@@ -33,6 +35,7 @@ namespace CommunityHub.Application.Services
             return _mapper.Map<WebinarDetailDto>(webinar);
         }
 
+        /// <inheritdoc />
         public async Task<Guid> CreateWebinarAsync(WebinarDto webinarDto)
         {
             var newWebinar = new Webinar(
@@ -47,6 +50,7 @@ namespace CommunityHub.Application.Services
             return newWebinar.Id;
         }
 
+        /// <inheritdoc />
         public async Task UpdateWebinarAsync(WebinarDto webinarDto)
         {
             var existingWebinar = await _webinarRepository.GetByIdAsync(webinarDto.Id)
@@ -63,6 +67,7 @@ namespace CommunityHub.Application.Services
             await _webinarRepository.UpdateAsync(existingWebinar);
         }
 
+        /// <inheritdoc />
         public async Task DeleteWebinarAsync(Guid webinarId)
         {
             await _webinarRepository.DeleteAsync(webinarId);

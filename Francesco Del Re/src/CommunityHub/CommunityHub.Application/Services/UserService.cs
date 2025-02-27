@@ -19,6 +19,7 @@ namespace CommunityHub.Application.Services
             _mapper = mapper;
         }
 
+        /// <inheritdoc />
         public async Task<UserDetailDto> GetUserByIdAsync(Guid userId)
         {
             var user = await _userRepository.GetByIdAsync(userId)
@@ -27,6 +28,7 @@ namespace CommunityHub.Application.Services
             return _mapper.Map<UserDetailDto>(user);
         }
 
+        /// <inheritdoc />
         public async Task<Guid> CreateUserAsync(UserDto userDto)
         {
             var email = new Email(userDto.Email);
@@ -35,12 +37,14 @@ namespace CommunityHub.Application.Services
             return newUser.Id;
         }
 
+        /// <inheritdoc />
         public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
         {
             var users = await _userRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<UserDto>>(users);
         }
 
+        /// <inheritdoc />
         public async Task UpdateUserAsync(UserDto userDto)
         {
             var existingUser = await _userRepository.GetByIdAsync(userDto.Id)
@@ -52,6 +56,7 @@ namespace CommunityHub.Application.Services
             await _userRepository.UpdateAsync(existingUser);
         }
 
+        /// <inheritdoc />
         public async Task DeleteUserAsync(Guid userId)
         {
             var existingUser = await _userRepository.GetByIdAsync(userId)
