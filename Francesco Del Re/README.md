@@ -42,3 +42,8 @@
    - Spazio per domande e discussione  
 
 ⚡ **Obiettivo finale:** Scrivere codice più pulito, scalabile e performante sfruttando i principi di Clean Code, Clean Architecture e .NET Aspire!  
+
+## 📚 Risorse .NET Aspire
+- **Repository GitHub**: [dotnet/aspire](https://github.com/dotnet/aspire)
+- **Documentazione ufficiale**: [Microsoft Docs - .NET Aspire](https://learn.microsoft.com/en-us/dotnet/aspire/)
+- **Guida all'apprendimento**: [Percorso di formazione su .NET Aspire](https://learn.microsoft.com/en-us/training/paths/dotnet-aspire/)
